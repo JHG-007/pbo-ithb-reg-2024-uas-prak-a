@@ -1,13 +1,10 @@
 package GUI;
 
+import Controller.HistoryTicketController;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class MenuHistoryTicket extends JFrame {
     private JTable table;
@@ -20,54 +17,31 @@ public class MenuHistoryTicket extends JFrame {
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
 
-        String[] columnNames = {"Transaction ID", "Package Type", "Package Weight", "Total Cost", "Created At", "Updated At", "Actions"};
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        String[] columnNames = {"Transaction ID", "Package Type", "Package Weight", "Total Cost", "Created At", "Updated At"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+        table = new JTable(tableModel);
+        loadData(tableModel);
 
-        try (Connection connection = DatabaseHandler.getConnection()) {
-            String query = "SELECT";
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane, BorderLayout.CENTER);
 
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Object[] rowData = {
-                    resultSet.getString("transaction_id"),
-                    resultSet.getString("package_type"),
-                    resultSet.getDouble("package_weight"),
-                    resultSet.getInt("total_cost"),
-                    resultSet.getString("created_at"),
-                    resultSet.getString("updated_at"),
-                };
-                model.addRow(rowData);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // Tabel
-        table = new JTable(model) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 6; // Kolom terakhir (Actions) bisa di-edit
-            }
-        };
-
-        // Tombol Back
         btnBack = new JButton("Back");
         btnBack.addActionListener(e -> {
-            new MainMenu().setVisible(true);
+            new Menu().setVisible(true);
             dispose();
         });
 
-        // Panel untuk tombol Back
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(btnBack);
-
-        // Tambahkan komponen ke JFrame
-        add(new JScrollPane(table), BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
+        JPanel btnBackPanel = new JPanel();
+        btnBackPanel.add(btnBack);
+        add(btnBackPanel, BorderLayout.SOUTH);
     }
 
-}}
+    private void loadData(DefaultTableModel tableModel) {
+        HistoryTicketController controller = new HistoryTicketController();
+        controller.loadHistoryData(tableModel);
+    }
+
+    public static void main(String[] args) {
+        new MenuHistoryTicket().setVisible(true);
+    }
+}

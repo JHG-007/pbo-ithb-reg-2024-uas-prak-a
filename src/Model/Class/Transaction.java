@@ -1,3 +1,4 @@
+package Class;
 public class Transaction {
     int id, total_cost;
     Customer customerID;

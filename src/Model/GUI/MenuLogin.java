@@ -1,15 +1,18 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.*;
 
+import Controller.LoginCheck;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.*;
 public class MenuLogin extends JFrame {
     private JTextField txtNomorTelp;
     private JPasswordField txtPassword;
     private JButton btnLogin;
     private JButton btnBack;
-    Toolkit toolkit = Toolkit.getDefaultToolkit();
-    Image img = toolkit.getImage("images/logo.png");
+    JLabel appLogo = new JLabel(new ImageIcon("GUI/images/logo.png"));
 
     public MenuLogin() {
         setTitle("Login");
@@ -23,7 +26,7 @@ public class MenuLogin extends JFrame {
         txtNomorTelp = new JTextField(16);
         frame.add(label1);
         frame.add(txtNomorTelp);
-        
+
         JLabel label2 = new JLabel("Password:");
         txtPassword = new JPasswordField(20);
         frame.add(label2);
@@ -37,16 +40,23 @@ public class MenuLogin extends JFrame {
 
         add(frame, BorderLayout.CENTER);
 
-        btnLogin.addActionListener(e -> new Menu().setVisible(true));
-        setLocationRelativeTo(null);
-        dispose();
-
-        btnBack.addActionListener(e -> new MainMenu().setVisible(true));
-        setLocationRelativeTo(null);
-        dispose();
-    }
-
-    public static void main(String[] args) {
-        new MenuLogin().setVisible(true);
+        btnLogin.addActionListener(e -> {
+            String phone = txtNomorTelp.getText();
+            String password = new String(txtPassword.getPassword());
+            LoginCheck loginCheck = new LoginCheck();
+            boolean success = loginCheck.login(phone, password);
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Login berhasil!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                new Menu().setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Nomor telepon atau password salah!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+    
+        btnBack.addActionListener(e -> {
+            new MainMenu().setVisible(true);
+            dispose();
+        });
     }
 }

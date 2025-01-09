@@ -1,3 +1,4 @@
+package Class;
 import Enum.ShipmentStatus;
 
 import java.util.Date;

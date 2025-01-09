@@ -1,31 +1,29 @@
-// package Controller;
+package Controller;
 
-// import Model.*;
+import Class.DatabaseHandler;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-// import java.sql.*;
-// import java.util.*;
+public class LoginCheck {
 
-// public class LoginCheck {
-//     public static List<User> showUser() {
-//         List<User> listUser = new ArrayList<>();
+    public boolean login(String phone, String password) {
+        if (phone.isEmpty() || password.isEmpty()) {
+            return false;
+        }
 
-//         String query = "SELECT * FROM user_id";
-        
-//         try {
-//             PreparedStatement st = ConnectionManager.getConnection().
-//                                                     prepareStatement(query);
-//             ResultSet rs = st.executeQuery();
-//             while (rs.next()) {
-//                 Mahasiswa m = new Mahasiswa();
-//                 m.setNama(rs.getString("nama"));
-//                 m.setNim(rs.getString("nim"));
-//                 listMahasiswa.add(m);
-//             }
-//         } catch (SQLException e) {
-//             e.printStackTrace();
-//         }
-        
-//         return listMahasiswa;
-//     }
-// }
-
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            String query = "SELECT * FROM customer WHERE phone = ? AND password = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                stmt.setString(1, phone);
+                stmt.setString(2, password);
+                ResultSet rs = stmt.executeQuery();
+                return rs.next();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+}

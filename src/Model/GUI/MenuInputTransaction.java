@@ -1,11 +1,16 @@
 package GUI;
 
+import Controller.TransactionController;
+import Class.Transaction;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MenuInputTransaction extends JFrame {
     private JTextField txtNama, txtAlamat, txtNomorTelp, txtberatPaket;
-    JComboBox<String> cmbCategoryPackage;
+    private JComboBox<String> cmbCategoryPackage;
     private JButton btnSimpan, btnBack;
 
     public MenuInputTransaction() {
@@ -14,6 +19,7 @@ public class MenuInputTransaction extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
         setLocationRelativeTo(null);
+
         JPanel frame = new JPanel(new GridLayout(15, 3, 3, 3));
 
         frame.add(new Label("Nama:"));
@@ -33,8 +39,7 @@ public class MenuInputTransaction extends JFrame {
         frame.add(txtberatPaket);
 
         frame.add(new Label("Tipe Paket:"));
-        String S1[] = { "Reguler", "Fast", "Super Fast" };
-        cmbCategoryPackage = new JComboBox<>(S1);
+        cmbCategoryPackage = new JComboBox<>();
         frame.add(cmbCategoryPackage);
 
         btnSimpan = new JButton("Save");
@@ -45,15 +50,23 @@ public class MenuInputTransaction extends JFrame {
 
         add(frame, BorderLayout.CENTER);
 
-        // btnSimpan.addActionListener(e -> );
+        btnSimpan.addActionListener(e -> {
+            TransactionController transactionController = new TransactionController();
+            try {
+                String nama = txtNama.getText();
+                String alamat = txtAlamat.getText();
+                String nomorTelp = txtNomorTelp.getText();
+                String beratPaketStr = txtberatPaket.getText();
+                String tipePaket = (String) cmbCategoryPackage.getSelectedItem();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Berat paket harus berupa angka.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
         btnBack.addActionListener(e -> {
             new Menu().setVisible(true);
             dispose();
         });
-    }
-    
-    public static void main(String[] args) {
-        new MenuInputTransaction().setVisible(true);
     }
 }

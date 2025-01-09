@@ -34,8 +34,5 @@ public class MainMenu extends JFrame{
             dispose();
         });
     }
-    
-    public static void main(String[] args) {
-        new MainMenu().setVisible(true);
-    }
+
 }

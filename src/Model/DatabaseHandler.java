@@ -1,8 +1,9 @@
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-public class ConnectionManager {
-
-    private static String server = "jdbc:mysql://localhost/Quiz2_PBO_reg_2024_1123007";
+public class DatabaseHandler {
+    private static String server = "jdbc:mysql://localhost/DB_UAS_1123007";
     private static String username = "root";
     private static String password = "";
     private static Connection connection;

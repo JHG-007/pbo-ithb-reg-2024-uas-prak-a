@@ -2,31 +2,33 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
-public class MainMenu extends JFrame {
-    public MainMenu() {
+public class MainMenu extends JFrame{
+    private JButton btnLogin;
+    private JButton btnRegister;
+
+    public MainMenu(){
         setTitle("Main Menu");
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(3, 1));
+        setLayout(new FlowLayout());
 
-        JButton btnLogin = new JButton("Login");
-        JButton btnExit = new JButton("Exit");
-
-        btnLogin.addActionListener(e -> {
-            Login login = new Login();
-            login.setVisible(true);
-            dispose();
-        });
-
-        btnExit.addActionListener(e -> System.exit(0));
+        btnLogin = new JButton("Login");
+        btnRegister = new JButton("Register");
 
         add(btnLogin);
-        add(btnExit);
+        add(btnRegister);
+
+        btnLogin.addActionListener(e -> new MenuLogin().setVisible(true));
+        setLocationRelativeTo(null);
+        dispose();
+
+        btnRegister.addActionListener(e -> new MenuRegister().setVisible(true));
+        setLocationRelativeTo(null);
+        dispose();
+    }
+    
+    public static void main(String[] args) {
+        new MainMenu().setVisible(true);
     }
 }

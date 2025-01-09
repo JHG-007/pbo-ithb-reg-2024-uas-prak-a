@@ -15,22 +15,27 @@ public class MenuLogin extends JFrame {
         setTitle("Login");
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
         setLocationRelativeTo(null);
+        JPanel frame = new JPanel(new GridLayout(5, 5, 10, 10));
 
-        txtNomorTelp = new JTextField();
-        add(txtNomorTelp);
+        JLabel label1 = new JLabel("Nomor Telepon:");
+        txtNomorTelp = new JTextField(16);
+        frame.add(label1);
+        frame.add(txtNomorTelp);
         
-        txtPassword = new JPasswordField();
-        add(txtPassword);
+        JLabel label2 = new JLabel("Password:");
+        txtPassword = new JPasswordField(20);
+        frame.add(label2);
+        frame.add(txtPassword);
 
         btnLogin = new JButton("Login");
-        add(btnLogin);
+        frame.add(btnLogin);
 
         btnBack = new JButton("Back");
-        add(btnBack);
+        frame.add(btnBack);
 
-
+        add(frame, BorderLayout.CENTER);
 
         btnLogin.addActionListener(e -> new Menu().setVisible(true));
         setLocationRelativeTo(null);

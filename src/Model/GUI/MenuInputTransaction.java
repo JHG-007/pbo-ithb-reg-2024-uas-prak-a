@@ -8,41 +8,51 @@ public class MenuInputTransaction extends JFrame {
     JComboBox<String> cmbCategoryPackage;
     private JButton btnSimpan, btnBack;
 
-    public MenuInputTransaction(){
+    public MenuInputTransaction() {
         setTitle("Input Transaction");
-        setSize(600, 400);
+        setSize(600, 450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
         setLocationRelativeTo(null);
-        
-        add(new Label("Nama:"));
-        txtNama = new JTextField();
-        add(txtNama);
+        JPanel frame = new JPanel(new GridLayout(15, 3, 3, 3));
 
-        txtAlamat = new JTextField();
-        add(txtAlamat);
+        frame.add(new Label("Nama:"));
+        txtNama = new JTextField(32);
+        frame.add(txtNama);
 
-        txtNomorTelp = new JTextField();
-        add(txtNomorTelp);
+        frame.add(new Label("Alamat:"));
+        txtAlamat = new JTextField(50);
+        frame.add(txtAlamat);
 
-        txtberatPaket = new JTextField();
-        add(txtberatPaket);
+        frame.add(new Label("No Telepon:"));
+        txtNomorTelp = new JTextField(16);
+        frame.add(txtNomorTelp);
 
-        cmbCategoryPackage = new JComboBox<>(new String [] {"Reguler", "Fast", "Super Fast"});
-        add(cmbCategoryPackage);
+        frame.add(new Label("Berat Paket:"));
+        txtberatPaket = new JTextField(10);
+        frame.add(txtberatPaket);
+
+        frame.add(new Label("Tipe Paket:"));
+        String S1[] = { "Reguler", "Fast", "Super Fast" };
+        cmbCategoryPackage = new JComboBox<>(S1);
+        frame.add(cmbCategoryPackage);
 
         btnSimpan = new JButton("Save");
-        add(btnSimpan);
+        frame.add(btnSimpan);
 
         btnBack = new JButton("Back");
-        add(btnBack);
+        frame.add(btnBack);
+
+        add(frame, BorderLayout.CENTER);
 
         // btnSimpan.addActionListener(e -> );
 
-        btnBack.addActionListener(e -> new Menu().setVisible(true));
-        setLocationRelativeTo(null);
-        dispose();
+        btnBack.addActionListener(e -> {
+            new Menu().setVisible(true);
+            dispose();
+        });
     }
+    
     public static void main(String[] args) {
         new MenuInputTransaction().setVisible(true);
     }

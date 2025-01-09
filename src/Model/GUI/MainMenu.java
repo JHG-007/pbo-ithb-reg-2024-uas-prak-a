@@ -9,23 +9,30 @@ public class MainMenu extends JFrame{
 
     public MainMenu(){
         setTitle("Main Menu");
-        setSize(400, 200);
+        setSize(400, 120);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
+        setLocationRelativeTo(null);
+        JPanel frame = new JPanel(new GridLayout(5, 5, 5, 5));
+
 
         btnLogin = new JButton("Login");
         btnRegister = new JButton("Register");
 
-        add(btnLogin);
-        add(btnRegister);
+        frame.add(btnLogin);
+        frame.add(btnRegister);
 
-        btnLogin.addActionListener(e -> new MenuLogin().setVisible(true));
-        setLocationRelativeTo(null);
-        dispose();
+        add(frame, BorderLayout.CENTER);
 
-        btnRegister.addActionListener(e -> new MenuRegister().setVisible(true));
-        setLocationRelativeTo(null);
-        dispose();
+        btnLogin.addActionListener(e -> {
+            new MenuLogin().setVisible(true);
+            dispose();
+        });
+
+        btnRegister.addActionListener(e -> {
+            new MenuRegister().setVisible(true);
+            dispose();
+        });
     }
     
     public static void main(String[] args) {
